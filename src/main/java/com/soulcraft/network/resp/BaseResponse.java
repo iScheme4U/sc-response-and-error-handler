@@ -1,6 +1,5 @@
 package com.soulcraft.network.resp;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,14 +13,23 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@AllArgsConstructor
-public class BaseResponse implements IResponseEnum {
+public class BaseResponse {
+
     /**
-     * 返回码
+     * 整个错误码信息
      */
-    private long code;
+    private String code;
     /**
      * 返回消息
      */
     private String message;
+
+    public BaseResponse(String appName, String moduleName, int code, String message) {
+        this.code = BaseResponse.getFullCode(appName, moduleName, code);
+        this.message = message;
+    }
+
+    public static String getFullCode(String appName, String moduleName, int code) {
+        return appName + "-" + moduleName + "-" + code;
+    }
 }

@@ -16,7 +16,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum CommonResponseEnum implements BusinessExceptionAssert {
 
-    SUCCESS(0, "Success"),
+    SUCCESS(200, "Success"),
     UNAUTHORIZED(401, "Not logged in or token expired."),
     INVALID_PARAMETER(402, "Invalid parameter."),
     FORBIDDEN(403, "Forbidden"),
@@ -27,9 +27,18 @@ public enum CommonResponseEnum implements BusinessExceptionAssert {
     /**
      * 返回码
      */
-    private long code;
+    private int code;
     /**
      * 返回消息
      */
     private String message;
+
+    public String getAppName() {
+        return "COM";
+    }
+
+    public String getModuleName() {
+        return "SRV";
+    }
+
 }

@@ -76,7 +76,7 @@ public class UnifiedExceptionHandler {
     @ResponseBody
     public ErrorResponse handleBusinessException(BusinessException e) {
         log.error(e.getMessage(), e);
-        return new ErrorResponse(e.getResponseEnum().getCode(), getMessage(e));
+        return new ErrorResponse(e.getResponseEnum(), getMessage(e));
     }
 
     /**
@@ -89,7 +89,7 @@ public class UnifiedExceptionHandler {
     @ResponseBody
     public ErrorResponse handleBaseException(BaseException e) {
         log.error(e.getMessage(), e);
-        return new ErrorResponse(e.getResponseEnum().getCode(), getMessage(e));
+        return new ErrorResponse(e.getResponseEnum(), getMessage(e));
     }
 
     /**
@@ -116,10 +116,9 @@ public class UnifiedExceptionHandler {
     @ResponseBody
     public ErrorResponse handleServletException(Exception e) {
         log.error(e.getMessage(), e);
-        long code = CommonResponseEnum.SERVER_ERROR.getCode();
         try {
             ServletResponseEnum servletExceptionEnum = ServletResponseEnum.valueOf(e.getClass().getSimpleName());
-            code = servletExceptionEnum.getCode();
+            return new ErrorResponse(servletExceptionEnum, e.getMessage());
         } catch (IllegalArgumentException e1) {
             log.error("class [{}] not defined in enum {}", e.getClass().getName(), ServletResponseEnum.class.getName());
         }
@@ -128,10 +127,10 @@ public class UnifiedExceptionHandler {
             // 当为生产环境, 不适合把具体的异常信息展示给用户, 比如404.
             BaseException baseException = new BaseException(CommonResponseEnum.SERVER_ERROR);
             String message = getMessage(baseException);
-            return new ErrorResponse(baseException.getResponseEnum().getCode(), message);
+            return new ErrorResponse(baseException.getResponseEnum(), message);
         }
+        return new ErrorResponse(CommonResponseEnum.SERVER_ERROR, e.getMessage());
 
-        return new ErrorResponse(code, e.getMessage());
     }
 
 
@@ -183,19 +182,19 @@ public class UnifiedExceptionHandler {
             msg.append(error.getDefaultMessage() == null ? "" : error.getDefaultMessage());
         }
 
-        return new ErrorResponse(CommonResponseEnum.VALIDATE_FAILED.getCode(), msg.toString());
+        return new ErrorResponse(CommonResponseEnum.VALIDATE_FAILED, msg.toString());
     }
 
     @ResponseBody
     @ExceptionHandler(value = DuplicateKeyException.class)
     public ErrorResponse handleException(DuplicateKeyException e) {
-        return new ErrorResponse(DbResponseEnum.DUPLICATED_KEY_ERROR.getCode(), e.getLocalizedMessage());
+        return new ErrorResponse(DbResponseEnum.DUPLICATED_KEY_ERROR, e.getLocalizedMessage());
     }
 
     @ResponseBody
     @ExceptionHandler(value = SQLException.class)
     public ErrorResponse handleException(SQLException e) {
-        return new ErrorResponse(e.getErrorCode(), e.getLocalizedMessage());
+        return new ErrorResponse(DbResponseEnum.DB_OPERATION_ERROR, e.getLocalizedMessage());
     }
 
     /**
@@ -211,11 +210,10 @@ public class UnifiedExceptionHandler {
 
         if (ENV_PROD.equals(profile)) {
             // 当为生产环境, 不适合把具体的异常信息展示给用户, 比如数据库异常信息.
-            long code = CommonResponseEnum.SERVER_ERROR.getCode();
             BaseException baseException = new BaseException(CommonResponseEnum.SERVER_ERROR);
             String message = getMessage(baseException);
-            return new ErrorResponse(code, message);
+            return new ErrorResponse(CommonResponseEnum.SERVER_ERROR, message);
         }
-        return new ErrorResponse(CommonResponseEnum.SERVER_ERROR.getCode(), e.getMessage());
+        return new ErrorResponse(CommonResponseEnum.SERVER_ERROR, e.getMessage());
     }
 }

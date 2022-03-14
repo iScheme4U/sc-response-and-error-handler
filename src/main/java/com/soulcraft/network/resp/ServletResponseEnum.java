@@ -19,9 +19,17 @@ public enum ServletResponseEnum implements BusinessExceptionAssert {
     /**
      * 返回码
      */
-    private long code;
+    private int code;
     /**
      * 返回消息
      */
     private String message;
+
+    public String getAppName() {
+        return "COM";
+    }
+
+    public String getModuleName() {
+        return "SERV";
+    }
 }

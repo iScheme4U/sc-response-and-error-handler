@@ -16,17 +16,26 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum DbResponseEnum implements BusinessExceptionAssert {
 
-    DUPLICATED_KEY_ERROR(600, "Duplicated key found"),
-    RECORD_ALREADY_EXISTED(601, "Record already existed: {0}"),
-    RECORD_IN_USE(602, "Record in use."),
+    DB_OPERATION_ERROR(600, "Database operation failed"),
+    DUPLICATED_KEY_ERROR(601, "Duplicated key found"),
+    RECORD_ALREADY_EXISTED(602, "Record already existed: {0}"),
+    RECORD_IN_USE(603, "Record in use."),
     ;
 
     /**
      * 返回码
      */
-    private long code;
+    private int code;
     /**
      * 返回消息
      */
     private String message;
+
+    public String getAppName() {
+        return "COM";
+    }
+
+    public String getModuleName() {
+        return "DB";
+    }
 }

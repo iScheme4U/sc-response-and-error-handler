@@ -18,11 +18,15 @@ public class R<T> extends BaseResponse {
     private T data;
 
     protected R(IResponseEnum responseEnum, T data, Object... args) {
-        this(responseEnum.getCode(), MessageUtils.getResponseMessage(responseEnum.toString(), args), data);
+        this(responseEnum.getAppName(),
+                responseEnum.getModuleName(),
+                responseEnum.getCode(),
+                MessageUtils.getResponseMessage(responseEnum.toString(), args),
+                data);
     }
 
-    protected R(long code, String message, T data) {
-        super(code, message);
+    protected R(String appName, String moduleName, int code, String message, T data) {
+        super(appName, moduleName, code, message);
         this.data = data;
     }
 
@@ -40,16 +44,6 @@ public class R<T> extends BaseResponse {
      */
     public static <T> R<T> success(T data) {
         return new R<>(CommonResponseEnum.SUCCESS, data);
-    }
-
-    /**
-     * 成功返回结果
-     *
-     * @param data    获取的数据
-     * @param message 提示信息
-     */
-    public static <T> R<T> success(T data, String message) {
-        return new R<>(CommonResponseEnum.SUCCESS.getCode(), message, data);
     }
 
     /**

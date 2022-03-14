@@ -16,12 +16,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum CommonResponseEnum implements BusinessExceptionAssert {
 
-    SUCCESS(200, "Success"),
-    UNAUTHORIZED(401, "Not logged in or token expired."),
-    INVALID_PARAMETER(402, "Invalid parameter."),
-    FORBIDDEN(403, "Forbidden"),
-    SERVER_ERROR(500, "Server Error, cause: {0}"),
-    VALIDATE_FAILED(501, "Validate failed"),
+    VALIDATE_FAILED(801, "Validate failed"),
+    INVALID_PARAMETER(802, "Invalid parameter."),
     ;
 
     /**

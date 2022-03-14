@@ -34,7 +34,7 @@ public class R<T> extends BaseResponse {
      * 成功返回结果
      */
     public static <T> R<T> success() {
-        return new R<>(CommonResponseEnum.SUCCESS, null);
+        return new R<>(HttpStatusEnum.OK, null);
     }
 
     /**
@@ -43,7 +43,7 @@ public class R<T> extends BaseResponse {
      * @param data 获取的数据
      */
     public static <T> R<T> success(T data) {
-        return new R<>(CommonResponseEnum.SUCCESS, data);
+        return new R<>(HttpStatusEnum.OK, data);
     }
 
     /**
@@ -57,7 +57,7 @@ public class R<T> extends BaseResponse {
      * 失败返回结果
      */
     public static <T> R<T> failed(T data, Object... args) {
-        return failed(CommonResponseEnum.SERVER_ERROR, data, args);
+        return failed(HttpStatusEnum.INTERNAL_SERVER_ERROR, data, args);
     }
 
     /**
@@ -73,13 +73,13 @@ public class R<T> extends BaseResponse {
      * 未登录返回结果
      */
     public static <T> R<T> unauthorized(T data, Object... args) {
-        return failed(CommonResponseEnum.UNAUTHORIZED, data, args);
+        return failed(HttpStatusEnum.UNAUTHORIZED, data, args);
     }
 
     /**
      * 未授权返回结果
      */
     public static <T> R<T> forbidden(T data, Object... args) {
-        return failed(CommonResponseEnum.FORBIDDEN, data, args);
+        return failed(HttpStatusEnum.FORBIDDEN, data, args);
     }
 }

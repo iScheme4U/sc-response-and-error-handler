@@ -2,10 +2,7 @@ package com.soulcraft.network.handler;
 
 import com.soulcraft.network.exception.BaseException;
 import com.soulcraft.network.exception.BusinessException;
-import com.soulcraft.network.resp.CommonResponseEnum;
-import com.soulcraft.network.resp.DbResponseEnum;
-import com.soulcraft.network.resp.ErrorResponse;
-import com.soulcraft.network.resp.ServletResponseEnum;
+import com.soulcraft.network.resp.*;
 import com.soulcraft.network.util.MessageUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.ConversionNotSupportedException;
@@ -125,11 +122,11 @@ public class UnifiedExceptionHandler {
 
         if (ENV_PROD.equals(profile)) {
             // 当为生产环境, 不适合把具体的异常信息展示给用户, 比如404.
-            BaseException baseException = new BaseException(CommonResponseEnum.SERVER_ERROR);
+            BaseException baseException = new BaseException(HttpStatusEnum.INTERNAL_SERVER_ERROR);
             String message = getMessage(baseException);
             return new ErrorResponse(baseException.getResponseEnum(), message);
         }
-        return new ErrorResponse(CommonResponseEnum.SERVER_ERROR, e.getMessage());
+        return new ErrorResponse(HttpStatusEnum.INTERNAL_SERVER_ERROR, e.getMessage());
 
     }
 
@@ -210,10 +207,10 @@ public class UnifiedExceptionHandler {
 
         if (ENV_PROD.equals(profile)) {
             // 当为生产环境, 不适合把具体的异常信息展示给用户, 比如数据库异常信息.
-            BaseException baseException = new BaseException(CommonResponseEnum.SERVER_ERROR);
+            BaseException baseException = new BaseException(HttpStatusEnum.INTERNAL_SERVER_ERROR);
             String message = getMessage(baseException);
-            return new ErrorResponse(CommonResponseEnum.SERVER_ERROR, message);
+            return new ErrorResponse(HttpStatusEnum.INTERNAL_SERVER_ERROR, message);
         }
-        return new ErrorResponse(CommonResponseEnum.SERVER_ERROR, e.getMessage());
+        return new ErrorResponse(HttpStatusEnum.INTERNAL_SERVER_ERROR, e.getMessage());
     }
 }

@@ -48,6 +48,33 @@ public class R<T> extends BaseResponse {
     }
 
     /**
+     * 成功返回结果
+     *
+     * @param data    获取的数据
+     * @param message 自定义消息
+     * @param <T>     返回类型
+     * @return 成功的返回结果
+     */
+    public static <T> R<T> success(T data, String message) {
+        HttpStatusEnum status = HttpStatusEnum.OK;
+        return new R<>(status.getAppName(), status.getModuleName(), status.getCode(), message, data);
+    }
+
+    /**
+     * 成功返回结果
+     *
+     * @param data        获取的数据
+     * @param messageCode 自定义消息代码
+     * @param args        自定义消息参数列表
+     * @param <T>         返回类型
+     * @return 成功的返回结果
+     */
+    public static <T> R<T> success(T data, String messageCode, Object... args) {
+        String message = MessageUtils.getMessage(messageCode, args);
+        return R.success(data, message);
+    }
+
+    /**
      * 失败返回结果
      */
     public static <T> R<T> failed() {

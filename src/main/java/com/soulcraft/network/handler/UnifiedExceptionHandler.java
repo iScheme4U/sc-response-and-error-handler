@@ -73,7 +73,7 @@ public class UnifiedExceptionHandler {
     @ResponseBody
     public ErrorResponse handleBusinessException(BusinessException e) {
         log.error(e.getMessage(), e);
-        return new ErrorResponse(e.getResponseEnum(), getMessage(e));
+        return new ErrorResponse(e.getResponseEnum(), e.getLocalizedMessage());
     }
 
     /**
@@ -86,7 +86,7 @@ public class UnifiedExceptionHandler {
     @ResponseBody
     public ErrorResponse handleBaseException(BaseException e) {
         log.error(e.getMessage(), e);
-        return new ErrorResponse(e.getResponseEnum(), getMessage(e));
+        return new ErrorResponse(e.getResponseEnum(), e.getLocalizedMessage());
     }
 
     /**
@@ -115,7 +115,7 @@ public class UnifiedExceptionHandler {
         log.error(e.getMessage(), e);
         try {
             ServletResponseEnum servletExceptionEnum = ServletResponseEnum.valueOf(e.getClass().getSimpleName());
-            return new ErrorResponse(servletExceptionEnum, e.getMessage());
+            return new ErrorResponse(servletExceptionEnum, e.getLocalizedMessage());
         } catch (IllegalArgumentException e1) {
             log.error("class [{}] not defined in enum {}", e.getClass().getName(), ServletResponseEnum.class.getName());
         }
@@ -126,7 +126,7 @@ public class UnifiedExceptionHandler {
             String message = getMessage(baseException);
             return new ErrorResponse(baseException.getResponseEnum(), message);
         }
-        return new ErrorResponse(HttpStatusEnum.INTERNAL_SERVER_ERROR, e.getMessage());
+        return new ErrorResponse(HttpStatusEnum.INTERNAL_SERVER_ERROR, e.getLocalizedMessage());
 
     }
 
@@ -140,7 +140,7 @@ public class UnifiedExceptionHandler {
     @ExceptionHandler(value = BindException.class)
     @ResponseBody
     public ErrorResponse handleBindException(BindException e) {
-        log.error("参数绑定校验异常", e);
+        log.error(e.getMessage(), e);
         return wrapperBindingResult(e.getBindingResult());
     }
 
@@ -153,7 +153,7 @@ public class UnifiedExceptionHandler {
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     @ResponseBody
     public ErrorResponse handleValidException(MethodArgumentNotValidException e) {
-        log.error("方法参数异常", e);
+        log.error(e.getMessage(), e);
         return wrapperBindingResult(e.getBindingResult());
     }
 
@@ -211,6 +211,6 @@ public class UnifiedExceptionHandler {
             String message = getMessage(baseException);
             return new ErrorResponse(HttpStatusEnum.INTERNAL_SERVER_ERROR, message);
         }
-        return new ErrorResponse(HttpStatusEnum.INTERNAL_SERVER_ERROR, e.getMessage());
+        return new ErrorResponse(HttpStatusEnum.INTERNAL_SERVER_ERROR, e.getLocalizedMessage());
     }
 }

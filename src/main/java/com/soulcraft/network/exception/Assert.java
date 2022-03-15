@@ -46,25 +46,49 @@ public interface Assert {
     }
 
     /**
-     * <p>断言对象<code>obj</code>非空。如果对象<code>obj</code>为空，则抛出异常
+     * 断言对象为空，否则抛出异常
      *
-     * @param obj 待判断对象
+     * @param obj  检查的对象
+     * @param args 异常消息参数列表
      */
-    default void assertNotNull(Object obj) {
-        if (obj == null) {
-            throwNewException();
+    default void assertNull(Object obj, Object... args) {
+        if (obj != null) {
+            throwNewException(args);
         }
     }
 
     /**
-     * <p>断言对象<code>obj</code>非空。如果对象<code>obj</code>为空，则抛出异常
-     * <p>异常信息<code>message</code>支持传递参数方式，避免在判断之前进行字符串拼接操作
+     * 断言对象非空，否则抛出异常
      *
-     * @param obj  待判断对象
-     * @param args message占位符对应的参数列表
+     * @param obj  检查的对象
+     * @param args 异常消息参数列表
      */
     default void assertNotNull(Object obj, Object... args) {
         if (obj == null) {
+            throwNewException(args);
+        }
+    }
+
+    /**
+     * 断言条件为真，否则抛出异常
+     *
+     * @param condition 检查条件
+     * @param args      异常消息参数列表
+     */
+    default void assertTrue(boolean condition, Object... args) {
+        if (!condition) {
+            throwNewException(args);
+        }
+    }
+
+    /**
+     * 断言条件为假，否则抛出异常
+     *
+     * @param condition 检查条件
+     * @param args      异常消息参数列表
+     */
+    default void assertFalse(boolean condition, Object... args) {
+        if (condition) {
             throwNewException(args);
         }
     }

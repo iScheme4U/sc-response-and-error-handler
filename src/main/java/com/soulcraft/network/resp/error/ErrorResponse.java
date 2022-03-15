@@ -1,4 +1,7 @@
-package com.soulcraft.network.resp;
+package com.soulcraft.network.resp.error;
+
+import com.soulcraft.network.resp.BaseResponse;
+import com.soulcraft.network.resp.IResponseEnum;
 
 /**
  * <p>

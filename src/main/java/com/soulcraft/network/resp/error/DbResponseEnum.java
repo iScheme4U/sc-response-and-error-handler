@@ -1,4 +1,4 @@
-package com.soulcraft.network.resp;
+package com.soulcraft.network.resp.error;
 
 import com.soulcraft.network.exception.BusinessExceptionAssert;
 import lombok.AllArgsConstructor;
@@ -6,7 +6,7 @@ import lombok.Getter;
 
 /**
  * <p>
- * 通用返回信息枚举
+ * 数据库返回信息枚举
  * </p>
  *
  * @author Scott
@@ -14,10 +14,12 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum CommonResponseEnum implements BusinessExceptionAssert {
+public enum DbResponseEnum implements BusinessExceptionAssert {
 
-    VALIDATE_FAILED(801, "Validate failed"),
-    INVALID_PARAMETER(802, "Invalid parameter."),
+    DB_OPERATION_ERROR(600, "Database operation failed"),
+    DUPLICATED_KEY_ERROR(601, "Duplicated key found"),
+    RECORD_ALREADY_EXISTED(602, "Record already existed: {0}"),
+    RECORD_IN_USE(603, "Record in use."),
     ;
 
     /**
@@ -34,7 +36,6 @@ public enum CommonResponseEnum implements BusinessExceptionAssert {
     }
 
     public String getModuleName() {
-        return "SRV";
+        return "DB";
     }
-
 }

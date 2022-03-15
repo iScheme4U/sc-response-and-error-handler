@@ -1,5 +1,6 @@
 package com.soulcraft.network.resp;
 
+import com.soulcraft.network.resp.error.HttpStatusEnum;
 import com.soulcraft.network.util.MessageUtils;
 import lombok.Getter;
 import lombok.Setter;

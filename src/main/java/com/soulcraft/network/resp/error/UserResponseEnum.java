@@ -1,4 +1,4 @@
-package com.soulcraft.network.resp;
+package com.soulcraft.network.resp.error;
 
 import com.soulcraft.network.exception.BusinessExceptionAssert;
 import lombok.AllArgsConstructor;

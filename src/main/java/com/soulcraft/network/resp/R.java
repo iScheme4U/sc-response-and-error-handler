@@ -76,20 +76,6 @@ public class R<T> extends BaseResponse {
 
     /**
      * 失败返回结果
-     */
-    public static <T> R<T> failed() {
-        return failed(null);
-    }
-
-    /**
-     * 失败返回结果
-     */
-    public static <T> R<T> failed(T data, Object... args) {
-        return failed(HttpStatusEnum.INTERNAL_SERVER_ERROR, data, args);
-    }
-
-    /**
-     * 失败返回结果
      *
      * @param errorCode 错误码
      */

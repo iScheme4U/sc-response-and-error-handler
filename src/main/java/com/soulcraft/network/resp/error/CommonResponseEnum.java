@@ -16,8 +16,8 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum CommonResponseEnum implements BusinessExceptionAssert {
 
-    VALIDATE_FAILED(801, "Validate failed"),
-    INVALID_PARAMETER(802, "Invalid parameter."),
+    VALIDATE_FAILED(800, "Validate failed"),
+    INVALID_PARAMETER(801, "Invalid parameter."),
     ;
 
     /**

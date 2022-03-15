@@ -42,6 +42,6 @@ public enum ServletResponseEnum implements BusinessExceptionAssert {
     }
 
     public String getModuleName() {
-        return "SERVLET";
+        return "SRVL";
     }
 }

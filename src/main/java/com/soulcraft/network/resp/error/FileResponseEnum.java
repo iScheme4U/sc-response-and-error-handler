@@ -16,11 +16,11 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum FileResponseEnum implements BusinessExceptionAssert {
 
-    FILENAME_IS_EMPTY(2000, "File name is empty."),
-    NOT_SUPPORTED_FILE_EXTENSION(2001, "Not supported file extension."),
-    FILE_SIZE_EXCEEDS_THRESHOLD(2002, "File {0} size exceeds threshold {1}"),
-    FILENAME_CONTAINS_ILLEGAL_CHARACTER(2003, "Filename {0} contains illegal character."),
-    CANNOT_CREATE_DIRECTORY(2004, "Cannot create directory {0}."),
+    FILENAME_IS_EMPTY(900, "File name is empty."),
+    NOT_SUPPORTED_FILE_EXTENSION(901, "Not supported file extension."),
+    FILE_SIZE_EXCEEDS_THRESHOLD(902, "File {0} size exceeds threshold {1}"),
+    FILENAME_CONTAINS_ILLEGAL_CHARACTER(903, "Filename {0} contains illegal character."),
+    CANNOT_CREATE_DIRECTORY(904, "Cannot create directory {0}."),
     ;
 
     /**

@@ -1,5 +1,7 @@
 package com.soulcraft.network.exception;
 
+import java.util.Collection;
+
 /**
  * <p>
  * 异常断言
@@ -46,30 +48,6 @@ public interface Assert {
     }
 
     /**
-     * 断言对象为空，否则抛出异常
-     *
-     * @param obj  检查的对象
-     * @param args 异常消息参数列表
-     */
-    default void assertNull(Object obj, Object... args) {
-        if (obj != null) {
-            throwNewException(args);
-        }
-    }
-
-    /**
-     * 断言对象非空，否则抛出异常
-     *
-     * @param obj  检查的对象
-     * @param args 异常消息参数列表
-     */
-    default void assertNotNull(Object obj, Object... args) {
-        if (obj == null) {
-            throwNewException(args);
-        }
-    }
-
-    /**
      * 断言条件为真，否则抛出异常
      *
      * @param condition 检查条件
@@ -91,5 +69,45 @@ public interface Assert {
         if (condition) {
             throwNewException(args);
         }
+    }
+
+    /**
+     * 断言对象为空，否则抛出异常
+     *
+     * @param obj  检查的对象
+     * @param args 异常消息参数列表
+     */
+    default void assertNull(Object obj, Object... args) {
+        assertTrue(obj == null, args);
+    }
+
+    /**
+     * 断言对象非空，否则抛出异常
+     *
+     * @param obj  检查的对象
+     * @param args 异常消息参数列表
+     */
+    default void assertNotNull(Object obj, Object... args) {
+        assertTrue(obj != null, args);
+    }
+
+    /**
+     * 断言集合为空，否则抛出异常
+     *
+     * @param collection 检查集合
+     * @param args       异常消息参数列表
+     */
+    default void assertEmpty(Collection<?> collection, Object... args) {
+        assertTrue(collection != null && collection.isEmpty(), args);
+    }
+
+    /**
+     * 断言集合非空，否则抛出异常
+     *
+     * @param collection 检查集合
+     * @param args       异常消息参数列表
+     */
+    default void assertNotEmpty(Collection<?> collection, Object... args) {
+        assertTrue(collection != null && !collection.isEmpty(), args);
     }
 }

@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
@@ -185,12 +186,25 @@ public class UnifiedExceptionHandler {
     @ResponseBody
     @ExceptionHandler(value = DuplicateKeyException.class)
     public ErrorResponse handleException(DuplicateKeyException e) {
+        log.error(e.getMessage(), e);
         return new ErrorResponse(DbResponseEnum.DUPLICATED_KEY_ERROR, e.getLocalizedMessage());
+    }
+
+    @ResponseBody
+    @ExceptionHandler(value = DataAccessException.class)
+    public ErrorResponse handleException(DataAccessException e) {
+        log.error(e.getMessage(), e);
+        String message = e.getLocalizedMessage();
+        if (e.getCause() instanceof SQLException) {
+            message = e.getCause().getLocalizedMessage();
+        }
+        return new ErrorResponse(DbResponseEnum.DB_OPERATION_ERROR, message);
     }
 
     @ResponseBody
     @ExceptionHandler(value = SQLException.class)
     public ErrorResponse handleException(SQLException e) {
+        log.error(e.getMessage(), e);
         return new ErrorResponse(DbResponseEnum.DB_OPERATION_ERROR, e.getLocalizedMessage());
     }
 

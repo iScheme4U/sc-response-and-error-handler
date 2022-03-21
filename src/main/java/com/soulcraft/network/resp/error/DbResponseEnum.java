@@ -20,9 +20,10 @@ public enum DbResponseEnum implements BusinessExceptionAssert {
     DUPLICATED_KEY_ERROR(601, "Duplicated key found"),
     RECORD_ALREADY_EXISTED(602, "Record already existed: {0}"),
     RECORD_IN_USE(603, "Record in use."),
-    RECORD_CREATE_FAILED(604, "Record create failed."),
-    RECORD_UPDATE_FAILED(605, "Record update failed."),
-    RECORD_DELETE_FAILED(606, "Record delete failed."),
+    RECORD_NOT_FOUND(604, "Record {0} not found."),
+    RECORD_CREATE_FAILED(605, "Record create failed."),
+    RECORD_UPDATE_FAILED(606, "Record update failed."),
+    RECORD_DELETE_FAILED(607, "Record delete failed."),
     ;
 
     /**

@@ -3,11 +3,9 @@ package com.soulcraft.network.handler;
 import com.soulcraft.network.exception.BaseException;
 import com.soulcraft.network.exception.BusinessException;
 import com.soulcraft.network.resp.error.*;
-import com.soulcraft.network.util.MessageUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.ConversionNotSupportedException;
 import org.springframework.beans.TypeMismatchException;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -43,26 +41,6 @@ import java.sql.SQLException;
 @Slf4j
 @ControllerAdvice
 public class UnifiedExceptionHandler {
-    /**
-     * 生产环境
-     */
-    private final static String ENV_PROD = "prod";
-
-    /**
-     * 当前环境
-     */
-    @Value("${spring.profiles.active}")
-    private String profile;
-
-    /**
-     * 获取国际化消息
-     *
-     * @param e 异常
-     * @return 国际化信息
-     */
-    public String getMessage(BaseException e) {
-        return MessageUtils.getResponseMessage(e.getResponseEnum().toString());
-    }
 
     /**
      * 业务异常
@@ -121,14 +99,7 @@ public class UnifiedExceptionHandler {
             log.error("class [{}] not defined in enum {}", e.getClass().getName(), ServletResponseEnum.class.getName());
         }
 
-        if (ENV_PROD.equals(profile)) {
-            // 当为生产环境, 不适合把具体的异常信息展示给用户, 比如404.
-            BaseException baseException = new BaseException(HttpStatusEnum.INTERNAL_SERVER_ERROR);
-            String message = getMessage(baseException);
-            return new ErrorResponse(baseException.getResponseEnum(), message);
-        }
-        return new ErrorResponse(HttpStatusEnum.INTERNAL_SERVER_ERROR, e.getLocalizedMessage());
-
+        return new ErrorResponse(HttpStatusEnum.INTERNAL_SERVER_ERROR);
     }
 
 
@@ -187,25 +158,21 @@ public class UnifiedExceptionHandler {
     @ExceptionHandler(value = DuplicateKeyException.class)
     public ErrorResponse handleException(DuplicateKeyException e) {
         log.error(e.getMessage(), e);
-        return new ErrorResponse(DbResponseEnum.DUPLICATED_KEY_ERROR, e.getLocalizedMessage());
+        return new ErrorResponse(DbResponseEnum.DUPLICATED_KEY_ERROR);
     }
 
     @ResponseBody
     @ExceptionHandler(value = DataAccessException.class)
     public ErrorResponse handleException(DataAccessException e) {
         log.error(e.getMessage(), e);
-        String message = e.getLocalizedMessage();
-        if (e.getCause() instanceof SQLException) {
-            message = e.getCause().getLocalizedMessage();
-        }
-        return new ErrorResponse(DbResponseEnum.DB_OPERATION_ERROR, message);
+        return new ErrorResponse(DbResponseEnum.DB_OPERATION_ERROR);
     }
 
     @ResponseBody
     @ExceptionHandler(value = SQLException.class)
     public ErrorResponse handleException(SQLException e) {
         log.error(e.getMessage(), e);
-        return new ErrorResponse(DbResponseEnum.DB_OPERATION_ERROR, e.getLocalizedMessage());
+        return new ErrorResponse(DbResponseEnum.DB_OPERATION_ERROR);
     }
 
     /**
@@ -218,13 +185,6 @@ public class UnifiedExceptionHandler {
     @ResponseBody
     public ErrorResponse handleException(Exception e) {
         log.error(e.getMessage(), e);
-
-        if (ENV_PROD.equals(profile)) {
-            // 当为生产环境, 不适合把具体的异常信息展示给用户, 比如数据库异常信息.
-            BaseException baseException = new BaseException(HttpStatusEnum.INTERNAL_SERVER_ERROR);
-            String message = getMessage(baseException);
-            return new ErrorResponse(HttpStatusEnum.INTERNAL_SERVER_ERROR, message);
-        }
-        return new ErrorResponse(HttpStatusEnum.INTERNAL_SERVER_ERROR, e.getLocalizedMessage());
+        return new ErrorResponse(HttpStatusEnum.INTERNAL_SERVER_ERROR);
     }
 }

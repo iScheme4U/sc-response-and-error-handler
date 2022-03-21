@@ -2,6 +2,7 @@ package com.soulcraft.network.resp.error;
 
 import com.soulcraft.network.resp.BaseResponse;
 import com.soulcraft.network.resp.IResponseEnum;
+import com.soulcraft.network.util.MessageUtils;
 
 /**
  * <p>
@@ -24,5 +25,9 @@ public class ErrorResponse extends BaseResponse {
 
     public ErrorResponse(IResponseEnum responseEnum, String message) {
         this(responseEnum.getAppName(), responseEnum.getModuleName(), responseEnum.getCode(), message);
+    }
+
+    public ErrorResponse(IResponseEnum responseEnum) {
+        this(responseEnum, MessageUtils.getResponseMessage(responseEnum.toString()));
     }
 }

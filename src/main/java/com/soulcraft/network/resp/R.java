@@ -79,12 +79,26 @@ public class R<T> extends BaseResponse {
      *
      * @param errorCode 错误码
      */
+    public static <T> R<T> failed(IResponseEnum errorCode) {
+        return new R<>(errorCode, null);
+    }
+
+    /**
+     * 失败返回结果
+     *
+     * @param errorCode 错误码
+     * @param data      数据对象
+     * @param args      参数列表
+     */
     public static <T> R<T> failed(IResponseEnum errorCode, T data, Object... args) {
         return new R<>(errorCode, data, args);
     }
 
     /**
      * 未登录返回结果
+     *
+     * @param data 数据对象
+     * @param args 参数列表
      */
     public static <T> R<T> unauthorized(T data, Object... args) {
         return failed(HttpStatusEnum.UNAUTHORIZED, data, args);
@@ -92,6 +106,8 @@ public class R<T> extends BaseResponse {
 
     /**
      * 未授权返回结果
+     * @param data      数据对象
+     * @param args      参数列表
      */
     public static <T> R<T> forbidden(T data, Object... args) {
         return failed(HttpStatusEnum.FORBIDDEN, data, args);

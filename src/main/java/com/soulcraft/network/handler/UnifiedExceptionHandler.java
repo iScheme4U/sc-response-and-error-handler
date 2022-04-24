@@ -52,6 +52,7 @@ public class UnifiedExceptionHandler {
     @ResponseBody
     public ErrorResponse handleBusinessException(BusinessException e) {
         log.error(e.getMessage(), e);
+        // 此处 e.getLocalizedMessage() 已是国际化后的消息
         return new ErrorResponse(e.getResponseEnum(), e.getLocalizedMessage());
     }
 

@@ -19,7 +19,7 @@ public class PageQuery implements Serializable {
     @Min(value = 1, message = "[页码]参数不能小于1")
     protected int pageNum = 1;
 
-    @Min(value = 1, message = "[页数据条数]参数不能效于1")
+    @Min(value = 1, message = "[分页数据条数]参数不能小于1")
     protected int pageSize = 5;
 
 }

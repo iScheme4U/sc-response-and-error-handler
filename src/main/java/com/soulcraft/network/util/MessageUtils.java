@@ -42,7 +42,7 @@ public class MessageUtils {
     }
 
     /**
-     * 获取国际化消息
+     * 获取错误码的国际化消息
      *
      * @param errorKey 错误码
      * @param args     消息参数

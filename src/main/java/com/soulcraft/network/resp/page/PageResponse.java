@@ -13,7 +13,7 @@ import java.util.List;
  * @since 2022年03月10日
  */
 @Data
-public class QP<T> {
+public class PageResponse<T> {
     /**
      * 当前页
      */
@@ -44,12 +44,16 @@ public class QP<T> {
      * @param <T>        条目类型
      * @return 转换后的分页结果
      */
-    public static <T> QP<T> restPage(IPage<T> pageResult) {
-        QP<T> result = new QP<>();
+    public static <T> PageResponse<T> restPage(IPage<T> pageResult) {
+        PageResponse<T> result = new PageResponse<>();
         result.setPageNum(Convert.toInt(pageResult.getCurrent()));
         result.setPageSize(Convert.toInt(pageResult.getSize()));
         result.setTotal(pageResult.getTotal());
-        result.setTotalPage(Convert.toInt(pageResult.getTotal() / pageResult.getSize() + 1));
+        if (pageResult.getTotal() % pageResult.getSize() == 0) {
+            result.setTotalPage(Convert.toInt(pageResult.getTotal() / pageResult.getSize()));
+        } else {
+            result.setTotalPage(Convert.toInt(pageResult.getTotal() / pageResult.getSize() + 1));
+        }
         result.setList(pageResult.getRecords());
         return result;
     }

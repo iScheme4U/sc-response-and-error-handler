@@ -16,25 +16,25 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum CommonResponseEnum implements BusinessExceptionAssert {
 
-    VALIDATE_FAILED(800, "Validate failed"),
-    INVALID_PARAMETER(801, "Invalid parameter."),
-    ;
+	VALIDATE_FAILED(800, "Validate failed"),
+	INVALID_PARAMETER(801, "Invalid parameter."),
+	;
 
-    /**
-     * 返回码
-     */
-    private int code;
-    /**
-     * 返回消息
-     */
-    private String message;
+	/**
+	 * 返回码
+	 */
+	private int code;
+	/**
+	 * 返回消息
+	 */
+	private String message;
 
-    public String getAppName() {
-        return "COM";
-    }
+	public String getAppName() {
+		return "COM";
+	}
 
-    public String getModuleName() {
-        return "SRV";
-    }
+	public String getModuleName() {
+		return "SRV";
+	}
 
 }

@@ -13,16 +13,16 @@ import com.soulcraft.network.util.MessageUtils;
  */
 public interface BusinessExceptionAssert extends IResponseEnum, Assert {
 
-    @Override
-    default BaseException newException(Object... args) {
-        String msg = MessageUtils.getResponseMessage(this.toString(), args);
-        return new BusinessException(this, args, msg);
-    }
+	@Override
+	default BaseException newException(Object... args) {
+		String msg = MessageUtils.getResponseMessage(this, args);
+		return new BusinessException(this, args, msg);
+	}
 
-    @Override
-    default BaseException newException(Throwable cause, Object... args) {
-        String msg = MessageUtils.getResponseMessage(this.toString(), args);
-        return new BusinessException(this, args, msg, cause);
-    }
+	@Override
+	default BaseException newException(Throwable cause, Object... args) {
+		String msg = MessageUtils.getResponseMessage(this, args);
+		return new BusinessException(this, args, msg, cause);
+	}
 
 }

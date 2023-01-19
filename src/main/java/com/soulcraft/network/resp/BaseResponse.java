@@ -15,21 +15,21 @@ import lombok.Setter;
 @Setter
 public abstract class BaseResponse implements IResponse {
 
-    /**
-     * 整个错误码信息
-     */
-    private String code;
-    /**
-     * 返回消息
-     */
-    private String message;
+	/**
+	 * 整个错误码信息
+	 */
+	private String code;
+	/**
+	 * 返回消息
+	 */
+	private String message;
 
-    public BaseResponse(String appName, String moduleName, int code, String message) {
-        this.code = BaseResponse.getFullCode(appName, moduleName, code);
-        this.message = message;
-    }
+	public BaseResponse(String appName, String moduleName, int code, String message) {
+		this.code = BaseResponse.getFullCode(appName, moduleName, code);
+		this.message = message;
+	}
 
-    public static String getFullCode(String appName, String moduleName, int code) {
-        return appName + "-" + moduleName + "-" + code;
-    }
+	public static String getFullCode(String appName, String moduleName, int code) {
+		return appName + "-" + moduleName + "-" + code;
+	}
 }

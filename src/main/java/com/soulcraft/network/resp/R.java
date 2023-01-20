@@ -18,15 +18,15 @@ import lombok.Setter;
 public class R<T> extends BaseResponse {
 	private T data;
 
-	protected R(IResponseEnum responseEnum, T data, Object... args) {
-		this(responseEnum.getAppName(),
+	private R(T data, IResponseEnum responseEnum, Object... args) {
+		this(data, responseEnum.getAppName(),
 				responseEnum.getModuleName(),
 				responseEnum.getCode(),
-				MessageUtils.getResponseMessage(responseEnum, args),
-				data);
+				MessageUtils.getResponseMessage(responseEnum, args)
+		);
 	}
 
-	protected R(String appName, String moduleName, int code, String message, T data) {
+	private R(T data, String appName, String moduleName, int code, String message) {
 		super(appName, moduleName, code, message);
 		this.data = data;
 	}
@@ -35,7 +35,7 @@ public class R<T> extends BaseResponse {
 	 * 成功返回结果
 	 */
 	public static <T> R<T> success() {
-		return new R<>(HttpStatusEnum.OK, null);
+		return R.success(null);
 	}
 
 	/**
@@ -44,20 +44,19 @@ public class R<T> extends BaseResponse {
 	 * @param data 获取的数据
 	 */
 	public static <T> R<T> success(T data) {
-		return new R<>(HttpStatusEnum.OK, data);
+		return new R<>(data, HttpStatusEnum.OK);
 	}
 
 	/**
 	 * 成功返回结果
 	 *
-	 * @param data    获取的数据
-	 * @param message 自定义消息
-	 * @param <T>     返回类型
+	 * @param messageCode 自定义消息代码
+	 * @param args        自定义消息参数列表
+	 * @param <T>         返回类型
 	 * @return 成功的返回结果
 	 */
-	public static <T> R<T> success(T data, String message) {
-		HttpStatusEnum status = HttpStatusEnum.OK;
-		return new R<>(status.getAppName(), status.getModuleName(), status.getCode(), message, data);
+	public static <T> R<T> success(IResponseEnum messageCode, Object... args) {
+		return R.success(null, messageCode, args);
 	}
 
 	/**
@@ -70,8 +69,19 @@ public class R<T> extends BaseResponse {
 	 * @return 成功的返回结果
 	 */
 	public static <T> R<T> success(T data, IResponseEnum messageCode, Object... args) {
+		HttpStatusEnum status = HttpStatusEnum.OK;
 		String message = MessageUtils.getResponseMessage(messageCode, args);
-		return R.success(data, message);
+		return new R<>(data, status.getAppName(), status.getModuleName(), status.getCode(), message);
+	}
+
+	/**
+	 * 失败返回结果
+	 *
+	 * @param errorCode 错误码
+	 * @param args      参数列表
+	 */
+	public static <T> R<T> failed(IResponseEnum errorCode, Object... args) {
+		return R.failed(null, errorCode, args);
 	}
 
 	/**
@@ -82,17 +92,6 @@ public class R<T> extends BaseResponse {
 	 * @param args      参数列表
 	 */
 	public static <T> R<T> failed(T data, IResponseEnum errorCode, Object... args) {
-		return new R<>(errorCode, data, args);
+		return new R<>(data, errorCode, args);
 	}
-
-	/**
-	 * 失败返回结果
-	 *
-	 * @param errorCode 错误码
-	 * @param args      参数列表
-	 */
-	public static <T> R<T> failed(IResponseEnum errorCode, Object... args) {
-		return new R<>(errorCode, null, args);
-	}
-
 }

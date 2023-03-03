@@ -51,7 +51,7 @@ public class UnifiedExceptionHandler {
 	@ExceptionHandler(value = BusinessException.class)
 	@ResponseBody
 	public ErrorResponse handleBusinessException(BusinessException e) {
-		log.error(e.getMessage(), e);
+		log.error(e.getMessage());
 		// 此处 e.getLocalizedMessage() 已是国际化后的消息
 		return new ErrorResponse(e.getResponseEnum(), e.getLocalizedMessage());
 	}
@@ -65,7 +65,7 @@ public class UnifiedExceptionHandler {
 	@ExceptionHandler(value = BaseException.class)
 	@ResponseBody
 	public ErrorResponse handleBaseException(BaseException e) {
-		log.error(e.getMessage(), e);
+		log.error(e.getMessage());
 		return new ErrorResponse(e.getResponseEnum(), e.getLocalizedMessage());
 	}
 

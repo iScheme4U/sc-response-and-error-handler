@@ -24,7 +24,7 @@ ext {
 }
 
 group "com.soulcraft"
-version "0.0.4"
+version "0.0.5"
 
 compileJava {
     sourceCompatibility = "1.8"

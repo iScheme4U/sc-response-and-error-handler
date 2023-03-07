@@ -51,13 +51,13 @@ public class UnifiedExceptionHandler {
 	@ExceptionHandler(value = BusinessException.class)
 	@ResponseBody
 	public ErrorResponse handleBusinessException(BusinessException e) {
-		log.error(e.getMessage());
+		log.error(e.getResponseEnum().getFullCode() + ", " + e.getLocalizedMessage());
 		// 此处 e.getLocalizedMessage() 已是国际化后的消息
 		return new ErrorResponse(e.getResponseEnum(), e.getLocalizedMessage());
 	}
 
 	/**
-	 * 自定义异常
+	 * 基础异常
 	 *
 	 * @param e 异常
 	 * @return 异常结果
@@ -65,7 +65,7 @@ public class UnifiedExceptionHandler {
 	@ExceptionHandler(value = BaseException.class)
 	@ResponseBody
 	public ErrorResponse handleBaseException(BaseException e) {
-		log.error(e.getMessage());
+		log.error(e.getResponseEnum().getFullCode() + ", " + e.getLocalizedMessage());
 		return new ErrorResponse(e.getResponseEnum(), e.getLocalizedMessage());
 	}
 
